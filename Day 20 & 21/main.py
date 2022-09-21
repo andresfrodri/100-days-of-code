@@ -50,6 +50,15 @@ while game_on:
         game_on = False #This freezes the game
         game_over = Score()
         game_over.write('GAME OVER',move = False, align= 'center', font=('consolas', 14, 'normal'))
+    
+    for segment in snake.segments:
+        if segment == snake.head:
+            pass
+        elif snake.head.distance(segment) < 10:
+            game_on = False #This freezes the game
+            game_over = Score()
+            game_over.write('GAME OVER',move = False, align= 'center', font=('consolas', 14, 'normal'))
+
 
 
 
