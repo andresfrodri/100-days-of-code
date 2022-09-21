@@ -1,4 +1,3 @@
-from tkinter import RIGHT
 import turtle as t
 
 
@@ -40,4 +39,11 @@ class Snake:
     def right(self):
         if self.head.heading() != 180:
             self.head.setheading(0)
-    
+
+    def new_segment(self):
+        segment = t.Turtle(shape="square")
+        segment.color('white')
+        segment.penup()
+        self.segments.append(segment)
+        
+        
