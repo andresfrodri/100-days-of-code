@@ -45,7 +45,14 @@ while game_on:
         score.write(initial ,move = False, align= 'center', font=('consolas', 12, 'normal'))
         snake.new_segment()
 
-    
+    #Detect collision with wall.
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+        game_on = False #This freezes the game
+        game_over = Score()
+        game_over.write('GAME OVER',move = False, align= 'center', font=('consolas', 14, 'normal'))
+
+
+
 
         
 
