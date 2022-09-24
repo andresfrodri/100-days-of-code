@@ -19,10 +19,14 @@ class Ball(t.Turtle):
     def bounce(self):
         self.y_move = -self.y_move
     def paddler(self):
-        self.x_move = -self.x_move
+        self.x_move = (-1.1)*self.x_move
     
     def rester(self):
         self.paddler()
+        if self.x_move > 0:
+            self.x_move =10
+        else:
+            self.x_move = -10
         self.home()
 
 

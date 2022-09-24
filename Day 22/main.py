@@ -2,7 +2,7 @@ import turtle as t
 import time
 from paddle import Paddle   
 from ball import Ball
-
+from scoreboard import Scoreboard
 screen = t.Screen()
 screen.setup(width = 800, height = 600)
 screen.bgcolor("black")
@@ -24,8 +24,8 @@ screen.onkey(paddle1.down, "s")
 #screen.onkey(paddle2.down, "Down")
 
 game_on = True
-x0 = -10
-y0 = -10
+
+score = Scoreboard()
 
 while game_on:
     paddle2.auto_move()
@@ -37,12 +37,14 @@ while game_on:
         ball.bounce()
     if ball.xcor() > 380:
         ball.rester()
+        score.l_point()
     elif ball.xcor() < -380:
         ball.rester()
+        score.r_point()
 
     ball.move()
  
-    time.sleep(0.1)
+    time.sleep(0.041)
 
 
 screen.exitonclick()
