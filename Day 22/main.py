@@ -1,6 +1,6 @@
 import turtle as t
 import time
-from paddle import paddle   
+from paddle import Paddle   
 
 screen = t.Screen()
 screen.setup(width = 800, height = 600)
@@ -9,14 +9,13 @@ screen.title("Pong")
 screen.tracer(0)
 
 
-paddle1=paddle(-350)
-paddle2 = paddle(350)
-
+paddle1= Paddle(-350)
+paddle2 = Paddle(350)
 screen.update()
 
 screen.listen()
-screen.onkey(paddle1.up,"Up")
-screen.onkey(paddle1.down,"Down")
+screen.onkey(paddle1.up, "Up")
+screen.onkey(paddle1.down, "Down")
 
 game_on = True
 

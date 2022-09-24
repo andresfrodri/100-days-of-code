@@ -1,42 +1,45 @@
 import turtle as t
 
 
-class paddle(t.Turtle):
+class Paddle(t.Turtle):
     def __init__(self, x):
         super().__init__()
         self.shape('square')
         self.x = x
-        self.create_paddle()
-
-
-
-    def create_paddle(self):
-        segment = t.Turtle(shape="square")
-        segment.setheading(90)
-        segment.shapesize(stretch_wid=5, stretch_len=1)
-        segment.color('white')
-        segment.penup()
-        segment.goto(self.x, y = 0)
-
-    def up(self):
         self.setheading(90)
-        self.forward(20)
+        self.shapesize(stretch_len=5, stretch_wid=1)
+        self.color('white')
+        self.penup()
+        self.goto(self.x, 0)
 
+
+        
+    def up(self):
+        self.goto(self.xcor(),self.ycor()+20)
 
     def down(self):
-        self.setheading(270)
-        self.forward(20)
+        self.goto(self.xcor(),self.ycor()-20)
 
     def move(self):
-        self.forward(20)
+        if self.heading() == 90:
+            self.goto(self.xcor(),self.ycor()+20)
+        else:
+            self.goto(self.xcor(),self.ycor()-20)
+    
 
     def auto_move(self):
-        if self.center.ycor() == 240:
+
+        if self.ycor() > 220:
             self.down()
-        elif self.center.ycor() == -240:
+            self.setheading(270)
+        elif self.ycor() < -220:
             self.up()
+            self.setheading(90)
         else:
             self.move()
+        
+
+
 
 
 
