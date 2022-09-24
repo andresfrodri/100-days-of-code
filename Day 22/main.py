@@ -31,12 +31,15 @@ while game_on:
     paddle2.auto_move()
     screen.update()
    
-    if ball.distance(paddle2) < 50 and ball.xcor()>320:
-        ball.paddler()
-    if ball.distance(paddle1) < 50 and ball.xcor()<-320:
+    if ball.distance(paddle2) < 50 and ball.xcor()>320 or ball.distance(paddle1) < 50 and ball.xcor()<-320:
         ball.paddler()
     if ball.ycor() > 260 or ball.ycor() < -260:
         ball.bounce()
+    if ball.xcor() > 380:
+        ball.rester()
+    elif ball.xcor() < -380:
+        ball.rester()
+
     ball.move()
  
     time.sleep(0.1)

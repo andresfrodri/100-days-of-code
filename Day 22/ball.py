@@ -20,6 +20,10 @@ class Ball(t.Turtle):
         self.y_move = -self.y_move
     def paddler(self):
         self.x_move = -self.x_move
+    
+    def rester(self):
+        self.paddler()
+        self.home()
 
 
 
