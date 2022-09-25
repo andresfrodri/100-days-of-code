@@ -1,5 +1,5 @@
 import turtle as t
-
+import random as rd
 
 class Paddle(t.Turtle):
     def __init__(self, x):
@@ -10,7 +10,7 @@ class Paddle(t.Turtle):
         self.shapesize(stretch_len=5, stretch_wid=1)
         self.color('white')
         self.penup()
-        self.goto(self.x, 0)
+        self.goto(self.x, 0)#rd.randint(-300,300))
 
 
         

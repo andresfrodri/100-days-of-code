@@ -22,11 +22,13 @@ class Ball(t.Turtle):
         self.x_move = (-1.1)*self.x_move
     
     def rester(self):
+        l0=[10,-10]
         self.paddler()
         if self.x_move > 0:
             self.x_move =10
         else:
             self.x_move = -10
+        self.y_move = rd.choice(l0)
         self.home()
 
 

@@ -28,6 +28,7 @@ game_on = True
 score = Scoreboard()
 
 while game_on:
+    #paddle1.auto_move()
     paddle2.auto_move()
     screen.update()
    
