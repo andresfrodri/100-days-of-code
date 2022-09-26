@@ -13,14 +13,9 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
-score_title = Score()
 
-score_title.goto(x=-20, y= 280)
-score_title.write('score: ',move = False, align= 'center', font=('consolas', 14, 'normal'))
 score = Score()
-score.goto(x=20, y= 280)
-initial = 0
-score.write(initial ,move = False, align= 'center', font=('consolas', 14, 'normal'))
+
 screen.update()
 
 screen.listen()
@@ -40,22 +35,21 @@ while game_on:
     #Detect collision with food
     if snake.head.distance(food) < 15:
         food.refresh()
-        score.clear()
-        initial += 1
-        score.write(initial ,move = False, align= 'center', font=('consolas', 12, 'normal'))
+        score.initial += 1
+        score.update_scoreboard()
         snake.new_segment()
 
     #Detect collision with wall.
     if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        game_on = False #This freezes the game
-        game_over = Score()
-        game_over.write('GAME OVER',move = False, align= 'center', font=('consolas', 14, 'normal'))
+        #game_on = False #This freezes the game
+        score.reset()
+        snake.reset()
     
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 10:
-            game_on = False #This freezes the game
-            game_over = Score()
-            game_over.write('GAME OVER',move = False, align= 'center', font=('consolas', 14, 'normal'))
+            #game_on = False #This freezes the game
+            score.reset()
+            snake.reset()
 
 
 
