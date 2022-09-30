@@ -24,10 +24,7 @@ while len(guessed_states) < 50:
         t.goto(int(state_info['x']), int(state_info['y']))
         t.write(answer_state)
     elif answer_state == 'Exit':
-        missing_states = []
-        for i in state_list:
-            if i not in guessed_states:
-                missing_states.append(i)
+        missing_states = [state for state in state_list if state not in guessed_states]
         new_data = pd.DataFrame(missing_states)
         new_data.to_csv('Missing_states_list.csv')
         break
