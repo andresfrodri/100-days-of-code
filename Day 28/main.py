@@ -21,6 +21,10 @@ def reseter():
     reps=0
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
+def raise_window(window):
+    window.attributes('-topmost', 1)
+    window.attributes('-topmost', 0)
+
 def start_timer():
     global reps
     reps += 1
@@ -52,6 +56,7 @@ def count_down(number):
     if number>0:
         timer = window.after(1000, count_down, number-1)
     else:
+        raise_window(window)
         start_timer()
         marks = ''
         work_sessions=math.floor(reps/2)
