@@ -1,6 +1,3 @@
-from pyexpat import model
-
-
 def add(*args):
     return sum(args)
 
