@@ -1,5 +1,8 @@
 import tkinter
+from tkinter import messagebox
 import random
+
+import pyperclip
 
 
 FONT_NAME = ('arial', 12)
@@ -9,11 +12,13 @@ options_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','0', '1', '2',
  '3', '4', '5', '6', '7', '8', '9' ,'!', '#', '$', '%', '&', '(', ')', '*', '+']
 def password_gen():
+    password_entry.delete(0,'end')
     s=''
-    for i in range(10):
+    for i in range(12):
         i=random.choice(options_list)
         s+=i
-    password_entry.insert(0,s)    
+    password_entry.insert(0,s) 
+    pyperclip.copy(s)
     
 
 
@@ -29,10 +34,14 @@ def save():
     website=website_entry.get()
     username=username_entry.get()
     password = password_entry.get()
-    saving = website + ' | ' + username + ' | '+ password+'\n'
-    with open('data.txt','a') as letters:
-        letters.write(saving)
-    deleting()
+    if website == '' or username == '' or password == '':
+        is_ok2=messagebox.showwarning(title='WARNING', message='One of the fields is empty')
+    else:
+        is_ok=messagebox.askokcancel(title=website, message=f'These are the details entered: \n Username:{username} \n Is it ok to save?')
+        if is_ok:
+            with open('data.txt','a') as letters:
+                letters.write(website + ' | ' + username + ' | '+ password+'\n')
+            deleting()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
