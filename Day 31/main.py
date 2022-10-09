@@ -5,8 +5,8 @@ import random as rd
 
 #-------------------Constants--------------------#
 BACKGROUND_COLOR = "#B1DDC6"
-title_font=('Ariel',40,'italic')
-word_font=('Ariel',60,'bold')
+title_font=('Arial',40,'italic')
+word_font=('Arial',60,'bold')
 a=1
 #----------------functions------------------------#
 def wordle():
