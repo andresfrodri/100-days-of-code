@@ -1,8 +1,7 @@
 #Stock trading news alert
-import json
 import datetime as dt
 import requests 
-import html
+from twilio.rest import Client
 import config
 
 
@@ -13,8 +12,14 @@ COMPANY_NAME = "Tesla Inc"
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
+
+account_sid = config.twilio_account_sid
+auth_token = config.twilio_auth_token
+
+
 today=dt.datetime.now().date()
 last_friday = (today - dt.timedelta(days=today.weekday()) + dt.timedelta(days=4, weeks=-1))
+week_before =(today - dt.timedelta(days=today.weekday()) + dt.timedelta(days=4, weeks=-1))
 if today.weekday()>5:
     yesterday=last_friday
 else:
@@ -27,10 +32,17 @@ else:
 
 params_stock={
     'function':'TIME_SERIES_DAILY',
-    'apikey': config.api_key,
+    'apikey': config.api_key_stock,
     'symbol': STOCK,
 }
 
+params_news ={
+    'apiKey': config.api_key_news,
+    'q': COMPANY_NAME,
+    'from':week_before,
+    'to':today,
+    'pageSize':3,
+}
 #---------------Get stock values------------------
 
 r1_s=requests.get(url=STOCK_ENDPOINT, params= params_stock)
@@ -39,33 +51,23 @@ stock_data=r1_s.json()
 yesterday_close_value = stock_data['Time Series (Daily)'][f'{yesterday}']['4. close']
 pre_yesterday_close_value = stock_data['Time Series (Daily)'][f'{before_yes}']['4. close']
 
-diference_perc = (abs(float(yesterday_close_value)-float(pre_yesterday_close_value)))/float(yesterday_close_value) * 100
+diference_perc = round((float(yesterday_close_value)-float(pre_yesterday_close_value)))/float(yesterday_close_value * 100,2)
 
 if diference_perc > 5:
-    print('get news')
-
-
-#-------------------------------Get News of the stocks-----------------------------
-## STEP 2: Use https://newsapi.org/docs/endpoints/everything
-# Instead of printing ("Get News"), actually fetch the first 3 articles for the COMPANY_NAME. 
-#HINT 1: Think about using the Python Slice Operator
-
-
-
-## STEP 3: Use twilio.com/docs/sms/quickstart/python
-# Send a separate message with each article's title and description to your phone number. 
-#HINT 1: Consider using a List Comprehension.
-
-
-
-#Optional: Format the SMS message like this: 
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
-
+    #-------------------------------Get News of the stocks-----------------------------
+    r2_n=requests.get(url=NEWS_ENDPOINT, params=params_news)
+    r2_n.raise_for_status()
+    news_data = r2_n.json()
+    news_list = news_data['articles']
+    client = Client(account_sid, auth_token)
+    for i in range(len(news_list)):
+        title=news_data['articles'][i]['title']
+        brief = news_data['articles'][i]['description']
+        text=f'{STOCK} moved {diference_perc}%\nHeadline: {title}\nBrief: {brief}'
+        message = client.messages \
+                .create(
+                     body=text,
+                     from_=config.twilio_phone_num,
+                     to= config.my_phone_num
+                 )
+        print(message.status)
