@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 import config
 
 #Create the user
@@ -37,11 +38,20 @@ headers={
 
 pixel_ep = f'{pixela_ep}/{config.username}/graphs/graph1'
 
+today = datetime.now()
 pixel_params={
-    'date':'20221022',
-    'quantity':"60.0",
+    'date': today.strftime("%Y%m%d"),
+    'quantity':"120.0",
 }
 
-r_pixel= requests.post(url=pixel_ep, json=pixel_params, headers=headers)
-print(r_pixel.text)
+#r_pixel= requests.post(url=pixel_ep, json=pixel_params, headers=headers)
+#print(r_pixel.text)
 
+#Update a pixel
+up_pixel_ep = f'{pixela_ep}/{config.username}/graphs/graph1/20221021'
+
+up_pixe_params = {
+    'quantity':'111.0',
+}
+
+r_up_pixel=requests.put(url=up_pixel_ep, json=up_pixe_params, headers=headers)
